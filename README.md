@@ -5,8 +5,8 @@ Chess, but every capture is a gunfight. Play your hand, keep the beat, hold your
 ## Install
 
 Download **Chess 2 Setup** from the [latest release](https://github.com/dominicfury/Chess-2-Installer/releases/latest)
-and run it. It installs for your user with no prompts and puts Chess 2 on the desktop and in the
-Start menu. Windows may show "Windows protected your PC" because the installer is not signed:
+and run it. The setup wizard lets you pick where to install, then puts Chess 2 on the desktop
+and in the Start menu and offers to launch it. Windows may show "Windows protected your PC" because the installer is not signed:
 choose **More info → Run anyway**.
 
 Then open Chess 2, enter a name, and either create a room and send the invite link to a friend,

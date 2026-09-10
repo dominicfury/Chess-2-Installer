@@ -18,15 +18,44 @@
   "build": {
     "appId": "com.furygroup.chess2",
     "productName": "Chess 2",
-    "directories": { "output": "dist" },
-    "files": ["main.js", "preload.js", "offline.html", "app-config.json", "build/icon.png"],
-    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }], "icon": "build/icon.ico" },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "offline.html",
+      "app-config.json",
+      "build/icon.png"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
     "nsis": {
-      "oneClick": true,
+      "oneClick": false,
       "perMachine": false,
-      "artifactName": "Chess 2 Setup ${version}.${ext}",
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": false,
+      "runAfterFinish": true,
       "createDesktopShortcut": true,
-      "shortcutName": "Chess 2"
+      "createStartMenuShortcut": true,
+      "shortcutName": "Chess 2",
+      "uninstallDisplayName": "Chess 2",
+      "artifactName": "Chess 2 Setup ${version}.${ext}",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/installerSidebar.bmp",
+      "deleteAppDataOnUninstall": false
     }
   }
 }

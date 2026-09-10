@@ -33,3 +33,21 @@ d.text((SIZE - 90, SIZE - 110), '2', font=small, fill=(255, 229, 154, 255))
 im.save(os.path.join(OUT, 'icon.png'))
 im.save(os.path.join(OUT, 'icon.ico'), sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
 print('ok', OUT)
+
+# ---- installer sidebar (NSIS wants a 164x314 BMP): navy panel with the tile and the wordmark
+side = Image.new('RGB', (164, 314), (32, 45, 88))
+sd = ImageDraw.Draw(side)
+for y in range(0, 314, 3):
+    sd.line((0, y, 164, y), fill=(26, 36, 71))
+tile = im.resize((96, 96), Image.LANCZOS)
+side.paste(tile, (34, 40), tile)
+big = ImageFont.truetype('C:/Windows/Fonts/georgiab.ttf' if os.path.exists('C:/Windows/Fonts/georgiab.ttf') else 'C:/Windows/Fonts/arialbd.ttf', 34)
+sd.text((25, 160), 'CHESS', font=big, fill=(32, 45, 88))
+sd.text((22, 157), 'CHESS', font=big, fill=(242, 238, 220))
+sd.text((126, 160), '2', font=big, fill=(32, 45, 88))
+sd.text((123, 157), '2', font=big, fill=(255, 229, 154))
+tag = ImageFont.truetype('C:/Windows/Fonts/tahoma.ttf' if os.path.exists('C:/Windows/Fonts/tahoma.ttf') else 'C:/Windows/Fonts/arial.ttf', 11)
+for i, line in enumerate(['Your next move', 'might be your last.']):
+    sd.text((22, 212 + i * 16), line, font=tag, fill=(201, 211, 230))
+side.save(os.path.join(OUT, 'installerSidebar.bmp'))
+print('sidebar ok')
