@@ -1,0 +1,32 @@
+{
+  "name": "chess2-app",
+  "productName": "Chess 2",
+  "version": "0.1.0",
+  "description": "Chess, but every capture is a gunfight.",
+  "author": "Fury Group",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:local": "electron . --server http://localhost:3210",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.furygroup.chess2",
+    "productName": "Chess 2",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "offline.html", "app-config.json", "build/icon.png"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }], "icon": "build/icon.ico" },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "artifactName": "Chess 2 Setup ${version}.${ext}",
+      "createDesktopShortcut": true,
+      "shortcutName": "Chess 2"
+    }
+  }
+}

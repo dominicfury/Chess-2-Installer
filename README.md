@@ -1,0 +1,35 @@
+# Chess 2
+
+Chess, but every capture is a gunfight. Play your hand, keep the beat, hold your ground.
+
+## Install
+
+Download **Chess 2 Setup** from the [latest release](https://github.com/dominicfury/Chess-2-Installer/releases/latest)
+and run it. It installs for your user with no prompts and puts Chess 2 on the desktop and in the
+Start menu. Windows may show "Windows protected your PC" because the installer is not signed:
+choose **More info → Run anyway**.
+
+Then open Chess 2, enter a name, and either create a room and send the invite link to a friend,
+or play against the bot. You need a keyboard and mouse for the duels.
+
+## What this repository is
+
+Only the desktop shell: a window that opens the game from the server, an offline page, and the
+icon. The game itself lives on the server and is not in this repository.
+
+- `server.json` tells every installed app where the server is. Apps read it from this repository
+  at launch, so changing the server never needs a new installer.
+- `main.js`, `preload.js`, `offline.html` are the shell. `app-config.json` is the built-in
+  fallback address.
+
+## Building the installer
+
+```
+npm install
+npm run dist          →  dist/Chess 2 Setup <version>.exe
+```
+
+Bump `version` in `package.json` first. Then create a GitHub Release tagged `v<version>` and
+attach the exe; the install link above always points at the newest release.
+
+To run the shell against a local server while developing the game: `npm run start:local`.

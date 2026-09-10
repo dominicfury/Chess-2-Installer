@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chess 2</title>
+    <style>
+      :root { color-scheme: dark; }
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #202d58; color: #f2eedc; font: 14px Tahoma, 'Segoe UI', sans-serif; }
+      body::after { content: ''; position: fixed; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, #00000033 0 1px, transparent 1px 3px); }
+      .card { text-align: center; padding: 32px 40px; border: 1px solid #a6cfff55; background: #1a2447; box-shadow: 4px 5px 0 #0f1530; max-width: 420px; }
+      h1 { margin: 0 0 6px; font: 900 44px Georgia, serif; letter-spacing: -.05em; }
+      h1 span { color: #ffe59a; }
+      p { margin: 8px 0; color: #c9d3e6; line-height: 1.5; }
+      code { color: #ffe59a; font-family: Consolas, monospace; }
+      button { margin-top: 14px; min-height: 36px; padding: 8px 22px; font: bold 14px Tahoma, sans-serif; color: #fffef1; background: linear-gradient(180deg, #6dacf9, #266ee0 50%, #1b58bf); border: 1px solid #1c50a4; cursor: pointer; }
+      button:hover { filter: brightness(1.08); }
+      small { display: block; margin-top: 12px; color: #8a97b5; font-size: 11px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>CHESS <span>2</span></h1>
+      <p>The server is not answering right now.</p>
+      <p><code id="server"></code></p>
+      <button id="retry">Try again</button>
+      <small id="reason"></small>
+    </div>
+    <script>
+      const q = new URLSearchParams(location.search);
+      document.getElementById('server').textContent = q.get('server') || '';
+      document.getElementById('reason').textContent = q.get('reason') || '';
+      document.getElementById('retry').addEventListener('click', () => window.chess2App && window.chess2App.retry());
+      // keep trying on its own every 15 s
+      setInterval(() => window.chess2App && window.chess2App.retry(), 15000);
+    </script>
+  </body>
+</html>
