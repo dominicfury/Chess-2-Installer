@@ -1,4 +1,4 @@
 {
-  "serverUrl": "http://localhost:3210",
+  "serverUrl": "https://gambitserver-production.up.railway.app",
   "note": "The address every installed Chess 2 app connects to. Edit this after Railway gives you a domain, e.g. https://chess-2-server-production.up.railway.app, then commit and push. Apps pick it up on their next launch."
 }
