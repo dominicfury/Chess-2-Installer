@@ -1,7 +1,7 @@
 {
   "name": "chess2-app",
   "productName": "Chess 2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Chess, but every capture is a gunfight.",
   "author": "Chess 2",
   "private": true,
@@ -26,7 +26,8 @@
       "preload.js",
       "offline.html",
       "app-config.json",
-      "build/icon.png"
+      "build/icon.png",
+      "node_modules/**/*"
     ],
     "win": {
       "target": [
@@ -56,6 +57,16 @@
       "installerSidebar": "build/installerSidebar.bmp",
       "uninstallerSidebar": "build/installerSidebar.bmp",
       "deleteAppDataOnUninstall": false
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "dominicfury",
+        "repo": "Chess-2-Installer"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
   }
 }

@@ -7,6 +7,7 @@
 // Chess-2-Installer repo (fetched at every launch, cached for offline starts), so the address can
 // change without a new installer; and finally app-config.json next to this file.
 const { app, BrowserWindow, ipcMain, shell, session } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -160,8 +161,23 @@ ipcMain.on('chess2:retry', async () => {
 ipcMain.handle('chess2:display:get', () => (win && win.isFullScreen() ? 'fullscreen' : 'windowed'));
 ipcMain.on('chess2:display:set', (_e, mode) => setDisplayMode(mode));
 
+/**
+ * The window itself updates from its GitHub releases, and only when the shell changes: the game
+ * inside it is served fresh by the server, so almost every release needs no new installer at all.
+ * Downloads in the background and installs when the player quits.
+ */
+function checkForShellUpdates() {
+  if (!packaged) return;
+  autoUpdater.autoDownload = true;
+  autoUpdater.on('error', () => {
+    /* no releases yet, or no network: the app carries on unchanged */
+  });
+  autoUpdater.checkForUpdatesAndNotify().catch(() => {});
+}
+
 app.whenReady().then(() => {
   createWindow();
+  checkForShellUpdates();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
