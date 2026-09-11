@@ -50,7 +50,7 @@
       "createStartMenuShortcut": true,
       "shortcutName": "Chess 2",
       "uninstallDisplayName": "Chess 2",
-      "artifactName": "Chess 2 Setup ${version}.${ext}",
+      "artifactName": "Chess-2-Setup-${version}.${ext}",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
       "installerHeaderIcon": "build/icon.ico",
