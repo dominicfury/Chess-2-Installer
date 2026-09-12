@@ -33,3 +33,12 @@ Bump `version` in `package.json` first. Then create a GitHub Release tagged `v<v
 attach the exe; the install link above always points at the newest release.
 
 To run the shell against a local server while developing the game: `npm run start:local`.
+
+## License
+
+Chess 2 is copyright © 2026 Dominic Chase. All rights reserved.
+
+This repository is public so that players can download the installer and so installed copies can
+read the current server address. **It is not open source.** You may download and run the official
+installer to play; you may not redistribute it, repackage it, ship a modified build, or distribute
+anything derived from this source. See [LICENSE](LICENSE).

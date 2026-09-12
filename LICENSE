@@ -1,0 +1,44 @@
+Chess 2
+Copyright (c) 2026 Dominic Chase. All rights reserved.
+
+PROPRIETARY SOFTWARE - NO LICENSE GRANTED
+
+This repository contains the Chess 2 desktop shell. It, the Chess 2 game it
+loads, and the Chess 2 name and artwork (together, the "Software") are the
+proprietary work of Dominic Chase.
+
+No license is granted, expressly or by implication, by estoppel or otherwise,
+to any person or entity to use, copy, reproduce, modify, adapt, merge,
+publish, distribute, sublicense, sell, or create derivative works from the
+Software or any part of it.
+
+THIS REPOSITORY IS PUBLIC. IT IS NOT OPEN SOURCE.
+
+It is published so that players can download the installer and so that
+installed copies can read the current server address. Being able to read this
+source confers no right to use it. This applies however it was obtained: from
+this repository, from files served to a web browser, from network traffic,
+from the installed application, or from any build artifact derived from it.
+All rights not expressly granted are reserved.
+
+You may download and run the official Chess 2 installer to play the game. You
+may not redistribute it, repackage it, ship a modified build of it, or
+distribute any application derived from this source.
+
+To request permission for any other use, contact dchase@thefurygroup.com.
+
+THIRD-PARTY COMPONENTS
+
+This application is built on Electron and electron-updater, together with
+their dependencies, each distributed under its own license (predominantly
+MIT). Those licenses apply to those components alone and grant no rights in
+the Software.
+
+NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

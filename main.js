@@ -1,3 +1,6 @@
+// Chess 2 — Copyright (c) 2026 Dominic Chase. All rights reserved.
+// Proprietary; no license granted. This repository is public but is not open source. See LICENSE.
+//
 // Chess 2 desktop shell: one window that loads the hosted game. The game itself (React, the 3D
 // table, the duels, the music) is served by the server, so updating the server updates every
 // player; this app only needs a new build when the shell itself changes.
