@@ -161,6 +161,12 @@ ipcMain.on('chess2:retry', async () => {
   const url = await serverUrl();
   if (win) win.loadURL(url);
 });
+/** The in-game Quit button. Closing the window is what quits, and that path already installs
+ * any update waiting in the background, so this takes it rather than calling app.quit() flat. */
+ipcMain.on('chess2:quit', () => {
+  if (win) win.close();
+  else app.quit();
+});
 ipcMain.handle('chess2:display:get', () => (win && win.isFullScreen() ? 'fullscreen' : 'windowed'));
 ipcMain.on('chess2:display:set', (_e, mode) => setDisplayMode(mode));
 
