@@ -151,11 +151,44 @@ async function createWindow() {
     }
   });
 
+  /*
+   * The page's own process can die: out of memory, a crash in the renderer. Nothing inside the page
+   * survives to say so, and what was left was this window's bare background, a plain blue screen
+   * with nothing to click. Note why, then put the game back: reload straight away the first time,
+   * and if it dies again within a minute show the offline page (which keeps retrying) instead of
+   * looping on a crash.
+   */
+  let lastRendererCrash = 0;
+  win.webContents.on('render-process-gone', (_e, details) => {
+    logIncident(`renderer gone: ${details.reason} (exit ${details.exitCode})`);
+    if (details.reason === 'clean-exit' || !win) return;
+    const again = Date.now() - lastRendererCrash < 60_000;
+    lastRendererCrash = Date.now();
+    if (!again) win.loadURL(url);
+    else win.loadFile(path.join(__dirname, 'offline.html'), { query: { server: url, title: 'The game stopped unexpectedly.', reason: details.reason } });
+  });
+  win.webContents.on('unresponsive', () => logIncident('renderer unresponsive'));
+
   win.loadURL(url);
   win.on('closed', () => {
     win = null;
   });
 }
+
+/** One line per incident in %APPDATA%\Chess 2\incidents.log, for when a player reports something. */
+function logIncident(text) {
+  try {
+    fs.mkdirSync(app.getPath('userData'), { recursive: true });
+    fs.appendFileSync(path.join(app.getPath('userData'), 'incidents.log'), `${new Date().toISOString()} ${text}\n`);
+  } catch {
+    /* nowhere to write: nothing else to do */
+  }
+}
+
+// A GPU process that dies takes 3D with it; the page recovers or explains, but the log says why.
+app.on('child-process-gone', (_e, details) => {
+  logIncident(`${details.type} process gone: ${details.reason} (exit ${details.exitCode})`);
+});
 
 ipcMain.on('chess2:retry', async () => {
   const url = await serverUrl();
@@ -166,6 +199,11 @@ ipcMain.on('chess2:retry', async () => {
 ipcMain.on('chess2:quit', () => {
   if (win) win.close();
   else app.quit();
+});
+/** Relaunch: after two graphics driver resets the browser keeps 3D off until the app restarts. */
+ipcMain.on('chess2:restart', () => {
+  app.relaunch();
+  app.exit(0);
 });
 ipcMain.handle('chess2:display:get', () => (win && win.isFullScreen() ? 'fullscreen' : 'windowed'));
 ipcMain.on('chess2:display:set', (_e, mode) => setDisplayMode(mode));

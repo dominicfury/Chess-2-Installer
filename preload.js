@@ -10,6 +10,8 @@ contextBridge.exposeInMainWorld('chess2App', {
   retry: () => ipcRenderer.send('chess2:retry'),
   /** Close the game from inside it: the menu's Quit button and the one in Settings */
   quit: () => ipcRenderer.send('chess2:quit'),
+  /** Close and reopen the app: the only way back once the graphics driver has reset twice and 3D is off */
+  restart: () => ipcRenderer.send('chess2:restart'),
   /** 'fullscreen' | 'windowed': read the current mode, or set and remember one */
   display: {
     get: () => ipcRenderer.invoke('chess2:display:get'),

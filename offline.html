@@ -20,7 +20,7 @@
   <body>
     <div class="card">
       <h1>CHESS <span>2</span></h1>
-      <p>The server is not answering right now.</p>
+      <p id="title">The server is not answering right now.</p>
       <p><code id="server"></code></p>
       <button id="retry">Try again</button>
       <small id="reason"></small>
@@ -28,6 +28,7 @@
     <script>
       const q = new URLSearchParams(location.search);
       document.getElementById('server').textContent = q.get('server') || '';
+      if (q.get('title')) document.getElementById('title').textContent = q.get('title');
       document.getElementById('reason').textContent = q.get('reason') || '';
       document.getElementById('retry').addEventListener('click', () => window.chess2App && window.chess2App.retry());
       // keep trying on its own every 15 s
