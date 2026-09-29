@@ -205,6 +205,15 @@ ipcMain.on('chess2:restart', () => {
   app.relaunch();
   app.exit(0);
 });
+/**
+ * A trusted key press for the page. Browsers only lock the pointer during a user gesture, so a duel
+ * or the casino could not take the mouse on arrival; the page asks for this, sees F24 go by (which
+ * nothing in the game uses) and locks the pointer from inside that key's handler.
+ */
+ipcMain.on('chess2:activate', (e) => {
+  e.sender.sendInputEvent({ type: 'keyDown', keyCode: 'F24' });
+  e.sender.sendInputEvent({ type: 'keyUp', keyCode: 'F24' });
+});
 ipcMain.handle('chess2:display:get', () => (win && win.isFullScreen() ? 'fullscreen' : 'windowed'));
 ipcMain.on('chess2:display:set', (_e, mode) => setDisplayMode(mode));
 

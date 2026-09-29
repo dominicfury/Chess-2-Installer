@@ -1,7 +1,7 @@
 {
   "name": "chess2-app",
   "productName": "Chess 2",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Chess, but every capture is a gunfight.",
   "author": "Chess 2",
   "private": true,
