@@ -22,11 +22,15 @@ const path = require('node:path');
 
 const packaged = app.isPackaged;
 
+// The app is "Chess 2: Brainrot Edition", but its data stays in %APPDATA%\Chess 2 -- where every version
+// before the rename kept it, and a name Windows allows as a folder.
 // `--data-dir=<path>`: keep this run's save, settings and caches somewhere else (testing, a second profile)
 {
   const arg = process.argv.find((a) => a.startsWith('--data-dir='));
-  if (arg) app.setPath('userData', path.resolve(arg.slice('--data-dir='.length)));
+  app.setPath('userData', arg ? path.resolve(arg.slice('--data-dir='.length)) : path.join(app.getPath('appData'), 'Chess 2'));
 }
+// the taskbar groups the window with its pinned and Start-menu shortcuts by this id (the installer's appId)
+if (process.platform === 'win32') app.setAppUserModelId('com.chess2.game');
 
 /** The game shipped inside the app, when it is (see the bundle script in the chess2 workspace). */
 const GAME_DIR = path.join(__dirname, 'game');
@@ -147,7 +151,7 @@ async function createWindow() {
     fullscreen: displayMode() === 'fullscreen',
     autoHideMenuBar: true,
     backgroundColor: '#202d58',
-    title: 'Chess 2',
+    title: 'Chess 2: Brainrot Edition',
     icon: path.join(__dirname, 'build', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

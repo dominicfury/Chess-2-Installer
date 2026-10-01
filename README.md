@@ -1,16 +1,16 @@
-# Chess 2
+# Chess 2: Brainrot Edition
 
 Chess, but every capture is a gunfight. Play your hand, keep the beat, hold your ground.
 
 ## Install
 
 Download **Chess 2 Setup** from the [latest release](https://github.com/dominicfury/Chess-2-Installer/releases/latest)
-and run it. The setup wizard lets you pick where to install, then puts Chess 2 on the desktop
+and run it. The setup wizard lets you pick where to install, then puts Chess 2: Brainrot Edition on the desktop
 and in the Start menu and offers to launch it. Windows may show "Windows protected your PC" because the installer is not signed:
 choose **More info → Run anyway**.
 
-Then open Chess 2, enter a name, and either create a room and send the invite link to a friend,
-or play against the bot. You need a keyboard and mouse for the duels.
+Then open it and press Play: **Solo** is the casino campaign, **Multiplayer** has ranked, rooms
+for friends and joining by code (set a name in Settings first). You need a keyboard and mouse for the duels.
 
 ## What this repository is
 
@@ -26,7 +26,7 @@ icon. The game itself lives on the server and is not in this repository.
 
 ```
 npm install
-npm run dist          →  dist/Chess 2 Setup <version>.exe
+npm run dist          →  dist/Chess-2-Setup-<version>.exe
 ```
 
 Bump `version` in `package.json` first. Then create a GitHub Release tagged `v<version>` and

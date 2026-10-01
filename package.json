@@ -1,8 +1,8 @@
 {
   "name": "chess2-app",
-  "productName": "Chess 2",
-  "version": "0.1.2",
-  "description": "Chess, but every capture is a gunfight.",
+  "productName": "Chess 2: Brainrot Edition",
+  "version": "0.1.3",
+  "description": "Chess 2: Brainrot Edition",
   "author": "Chess 2",
   "private": true,
   "main": "main.js",
@@ -18,7 +18,8 @@
   },
   "build": {
     "appId": "com.chess2.game",
-    "productName": "Chess 2",
+    "executableName": "Chess 2 Brainrot Edition",
+    "productName": "Chess 2: Brainrot Edition",
     "directories": {
       "output": "dist"
     },
@@ -50,8 +51,8 @@
       "runAfterFinish": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Chess 2",
-      "uninstallDisplayName": "Chess 2",
+      "shortcutName": "Chess 2 Brainrot Edition",
+      "uninstallDisplayName": "Chess 2: Brainrot Edition",
       "artifactName": "Chess-2-Setup-${version}.${ext}",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
