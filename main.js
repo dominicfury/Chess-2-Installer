@@ -214,6 +214,36 @@ ipcMain.on('chess2:activate', (e) => {
   e.sender.sendInputEvent({ type: 'keyDown', keyCode: 'F24' });
   e.sender.sendInputEvent({ type: 'keyUp', keyCode: 'F24' });
 });
+/**
+ * The player's save: one signed document the game keeps here, in the app's own folder, rather than in
+ * the page's storage -- where Steam Cloud can sync it, and where it survives the page's cache being
+ * cleared. The page signs and checks it; this only keeps it safe on disk. Each write replaces the file
+ * atomically and keeps the copy it replaced as a backup.
+ */
+const savePath = () => path.join(app.getPath('userData'), 'save.json');
+const backupPath = () => path.join(app.getPath('userData'), 'save.bak.json');
+ipcMain.on('chess2:save:read', (e) => {
+  const read = (p) => {
+    try {
+      return fs.readFileSync(p, 'utf8');
+    } catch {
+      return null;
+    }
+  };
+  e.returnValue = { current: read(savePath()), backup: read(backupPath()) };
+});
+ipcMain.on('chess2:save:write', (_e, text) => {
+  if (typeof text !== 'string' || text.length > 5_000_000) return;
+  try {
+    const file = savePath();
+    if (fs.existsSync(file)) fs.copyFileSync(file, backupPath());
+    const tmp = `${file}.tmp`;
+    fs.writeFileSync(tmp, text);
+    fs.renameSync(tmp, file);
+  } catch (err) {
+    console.error('[save] could not write the save', err);
+  }
+});
 ipcMain.handle('chess2:display:get', () => (win && win.isFullScreen() ? 'fullscreen' : 'windowed'));
 ipcMain.on('chess2:display:set', (_e, mode) => setDisplayMode(mode));
 
