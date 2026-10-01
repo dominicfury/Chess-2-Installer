@@ -1,20 +1,66 @@
 // Chess 2 — Copyright (c) 2026 Dominic Chase. All rights reserved.
 // Proprietary; no license granted. This repository is public but is not open source. See LICENSE.
 //
-// Chess 2 desktop shell: one window that loads the hosted game. The game itself (React, the 3D
-// table, the duels, the music) is served by the server, so updating the server updates every
-// player; this app only needs a new build when the shell itself changes.
+// Chess 2 desktop shell: one window around the game. Two ways to run:
+//
+//  - Bundled (a `game/` folder ships beside this file -- the Steam build): the game runs from the
+//    app's own files under app://chess2/, single-player needs no network at all, and only what is
+//    online (ranked, friend rooms, the leaderboard) goes to the server: app://chess2/api/* is
+//    forwarded there, and the game opens its WebSocket to it directly.
+//  - Hosted (no `game/`, or `--remote`): the window loads the game the server serves, so updating
+//    the server updates every player; this app only needs a new build when the shell changes.
 //
 // Which server, in order: `--server <url>` on the command line; %APPDATA%\Chess 2\server.json
 // ({ "serverUrl": "..." }) for a player's own override; server.json published in the public
 // Chess-2-Installer repo (fetched at every launch, cached for offline starts), so the address can
 // change without a new installer; and finally app-config.json next to this file.
-const { app, BrowserWindow, ipcMain, shell, session } = require('electron');
+const { app, BrowserWindow, ipcMain, net, protocol, shell, session } = require('electron');
+const { pathToFileURL } = require('node:url');
 const { autoUpdater } = require('electron-updater');
 const fs = require('node:fs');
 const path = require('node:path');
 
 const packaged = app.isPackaged;
+
+// `--data-dir=<path>`: keep this run's save, settings and caches somewhere else (testing, a second profile)
+{
+  const arg = process.argv.find((a) => a.startsWith('--data-dir='));
+  if (arg) app.setPath('userData', path.resolve(arg.slice('--data-dir='.length)));
+}
+
+/** The game shipped inside the app, when it is (see the bundle script in the chess2 workspace). */
+const GAME_DIR = path.join(__dirname, 'game');
+const bundled = fs.existsSync(path.join(GAME_DIR, 'index.html')) && !process.argv.includes('--remote');
+const BUNDLED_ORIGIN = 'app://chess2';
+if (bundled) {
+  // a real origin for the bundled game: fetch, storage, audio streaming and pointer lock all work as on the web
+  protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
+}
+
+/**
+ * app://chess2/ for the bundled game. A file that exists is served from `game/`; a path with no file
+ * extension is one of the game's own routes (/solo, /r/ABCD) and gets index.html; /api/* goes to the
+ * server, so the game's online calls work unchanged.
+ */
+function serveBundledGame(server) {
+  protocol.handle('app', async (req) => {
+    const u = new URL(req.url);
+    if (u.pathname.startsWith('/api/')) {
+      try {
+        return await net.fetch(server + u.pathname + u.search, { method: req.method, headers: req.headers, body: req.body, duplex: 'half' });
+      } catch {
+        return new Response(JSON.stringify({ error: 'offline' }), { status: 503, headers: { 'content-type': 'application/json' } });
+      }
+    }
+    const rel = decodeURIComponent(u.pathname).replace(/^\/+/, '');
+    const file = path.normalize(path.join(GAME_DIR, rel));
+    // nothing outside the game folder, whatever the path says
+    if (!file.startsWith(GAME_DIR)) return new Response('Not found', { status: 404 });
+    if (rel && fs.existsSync(file) && fs.statSync(file).isFile()) return net.fetch(pathToFileURL(file).toString(), { headers: req.headers });
+    if (!path.extname(rel)) return net.fetch(pathToFileURL(path.join(GAME_DIR, 'index.html')).toString());
+    return new Response('Not found', { status: 404 });
+  });
+}
 const DEFAULT_CONFIG = JSON.parse(fs.readFileSync(path.join(__dirname, 'app-config.json'), 'utf8'));
 const PUBLISHED_CONFIG = 'https://raw.githubusercontent.com/dominicfury/Chess-2-Installer/main/server.json';
 
@@ -87,8 +133,11 @@ function setDisplayMode(mode) {
 }
 
 async function createWindow() {
-  const url = await serverUrl();
-  const origin = new URL(url).origin;
+  const server = await serverUrl();
+  if (bundled) serveBundledGame(server);
+  // the window's page: the bundled game, or the server's
+  const url = bundled ? `${BUNDLED_ORIGIN}/` : server;
+  const origin = bundled ? BUNDLED_ORIGIN : new URL(server).origin;
   win = new BrowserWindow({
     width: 1440,
     height: 900,
@@ -107,7 +156,7 @@ async function createWindow() {
       sandbox: true,
       // the menu music and the duel sounds may start without a click
       autoplayPolicy: 'no-user-gesture-required',
-      additionalArguments: [`--chess2-server=${url}`],
+      additionalArguments: [`--chess2-server=${server}`, ...(bundled ? ['--chess2-bundled'] : [])],
     },
   });
   win.removeMenu();
@@ -191,7 +240,7 @@ app.on('child-process-gone', (_e, details) => {
 });
 
 ipcMain.on('chess2:retry', async () => {
-  const url = await serverUrl();
+  const url = bundled ? `${BUNDLED_ORIGIN}/` : await serverUrl();
   if (win) win.loadURL(url);
 });
 /** The in-game Quit button. Closing the window is what quits, and that path already installs

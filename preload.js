@@ -3,10 +3,13 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 const serverArg = process.argv.find((a) => a.startsWith('--chess2-server='));
+/** Running the game shipped inside the app rather than the server's pages */
+const bundled = process.argv.includes('--chess2-bundled');
 
 contextBridge.exposeInMainWorld('chess2App', {
   version: '0.1.0',
   serverUrl: serverArg ? serverArg.slice('--chess2-server='.length) : null,
+  bundled,
   retry: () => ipcRenderer.send('chess2:retry'),
   /** Close the game from inside it: the menu's Quit button and the one in Settings */
   quit: () => ipcRenderer.send('chess2:quit'),

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "electron .",
     "start:local": "electron . --server http://localhost:3210",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis",
+    "start:bundled": "electron ."
   },
   "devDependencies": {
     "electron": "^33.2.1",
@@ -23,6 +24,7 @@
     },
     "files": [
       "main.js",
+      "game/**/*",
       "preload.js",
       "offline.html",
       "app-config.json",
