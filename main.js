@@ -22,8 +22,8 @@ const path = require('node:path');
 
 const packaged = app.isPackaged;
 
-// The app is "Chess 2: Brainrot Edition", but its data stays in %APPDATA%\Chess 2 -- where every version
-// before the rename kept it, and a name Windows allows as a folder.
+// The app's data lives in %APPDATA%\Chess 2, where every version has kept it, whatever the app is
+// called (it was "Chess 2: Brainrot Edition" for a while, a name Windows does not allow as a folder).
 // `--data-dir=<path>`: keep this run's save, settings and caches somewhere else (testing, a second profile)
 {
   const arg = process.argv.find((a) => a.startsWith('--data-dir='));
@@ -151,7 +151,7 @@ async function createWindow() {
     fullscreen: displayMode() === 'fullscreen',
     autoHideMenuBar: true,
     backgroundColor: '#202d58',
-    title: 'Chess 2: Brainrot Edition',
+    title: 'Chess 2',
     icon: path.join(__dirname, 'build', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

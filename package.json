@@ -1,8 +1,8 @@
 {
   "name": "chess2-app",
-  "productName": "Chess 2: Brainrot Edition",
+  "productName": "Chess 2",
   "version": "0.1.6",
-  "description": "Chess 2: Brainrot Edition",
+  "description": "Chess 2",
   "author": "Chess 2",
   "private": true,
   "main": "main.js",
@@ -18,8 +18,8 @@
   },
   "build": {
     "appId": "com.chess2.game",
-    "executableName": "Chess 2 Brainrot Edition",
-    "productName": "Chess 2: Brainrot Edition",
+    "executableName": "Chess 2",
+    "productName": "Chess 2",
     "directories": {
       "output": "dist"
     },
@@ -51,8 +51,8 @@
       "runAfterFinish": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Chess 2 Brainrot Edition",
-      "uninstallDisplayName": "Chess 2: Brainrot Edition",
+      "shortcutName": "Chess 2",
+      "uninstallDisplayName": "Chess 2",
       "artifactName": "Chess-2-Setup-${version}.${ext}",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",

@@ -1,11 +1,11 @@
-# Chess 2: Brainrot Edition
+# Chess 2
 
 Chess, but every capture is a gunfight. Play your hand, keep the beat, hold your ground.
 
 ## Install
 
 Download **Chess 2 Setup** from the [latest release](https://github.com/dominicfury/Chess-2-Installer/releases/latest)
-and run it. The setup wizard lets you pick where to install, then puts Chess 2: Brainrot Edition on the desktop
+and run it. The setup wizard lets you pick where to install, then puts Chess 2 on the desktop
 and in the Start menu and offers to launch it. Windows may show "Windows protected your PC" because the installer is not signed:
 choose **More info → Run anyway**.
 
