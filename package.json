@@ -1,7 +1,7 @@
 {
   "name": "chess2-app",
   "productName": "Chess 2: Brainrot Edition",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Chess 2: Brainrot Edition",
   "author": "Chess 2",
   "private": true,

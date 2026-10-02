@@ -160,7 +160,7 @@ async function createWindow() {
       sandbox: true,
       // the menu music and the duel sounds may start without a click
       autoplayPolicy: 'no-user-gesture-required',
-      additionalArguments: [`--chess2-server=${server}`, ...(bundled ? ['--chess2-bundled'] : [])],
+      additionalArguments: [`--chess2-server=${server}`, `--chess2-version=${app.getVersion()}`, ...(bundled ? ['--chess2-bundled'] : [])],
     },
   });
   win.removeMenu();
@@ -301,18 +301,44 @@ ipcMain.handle('chess2:display:get', () => (win && win.isFullScreen() ? 'fullscr
 ipcMain.on('chess2:display:set', (_e, mode) => setDisplayMode(mode));
 
 /**
- * The window itself updates from its GitHub releases, and only when the shell changes: the game
- * inside it is served fresh by the server, so almost every release needs no new installer at all.
- * Downloads in the background and installs when the player quits.
+ * The app updates itself from its GitHub releases: the game ships inside it, so every change to the
+ * game is a new release. It downloads in the background as soon as one is out, and installs when the
+ * player quits -- or straight away, from the game's "Restart now". The game is told how it is going
+ * (chess2:update), so it can show the download and keep the player out of online play until they have
+ * restarted onto the new version.
  */
+let updateState = { state: 'idle' };
+function tellUpdate(next) {
+  updateState = { ...updateState, ...next };
+  if (win && !win.isDestroyed()) win.webContents.send('chess2:update', updateState);
+}
 function checkForShellUpdates() {
   if (!packaged) return;
   autoUpdater.autoDownload = true;
-  autoUpdater.on('error', () => {
-    /* no releases yet, or no network: the app carries on unchanged */
+  autoUpdater.on('checking-for-update', () => {
+    if (updateState.state !== 'downloading' && updateState.state !== 'ready') tellUpdate({ state: 'checking' });
   });
-  autoUpdater.checkForUpdatesAndNotify().catch(() => {});
+  autoUpdater.on('update-not-available', () => tellUpdate({ state: 'none' }));
+  autoUpdater.on('update-available', (info) => tellUpdate({ state: 'downloading', version: info.version, percent: 0 }));
+  autoUpdater.on('download-progress', (p) => tellUpdate({ state: 'downloading', percent: Math.floor(p.percent) }));
+  autoUpdater.on('update-downloaded', (info) => tellUpdate({ state: 'ready', version: info.version }));
+  autoUpdater.on('error', () => {
+    // no network, or GitHub unreachable: the app carries on as it is, and says so only if a download broke
+    tellUpdate({ state: updateState.state === 'downloading' ? 'error' : 'none' });
+  });
+  const check = () => {
+    if (updateState.state === 'downloading' || updateState.state === 'ready') return;
+    autoUpdater.checkForUpdates().catch(() => {});
+  };
+  check();
+  // a game left open still hears about a release
+  setInterval(check, 30 * 60_000);
 }
+ipcMain.handle('chess2:update:get', () => updateState);
+ipcMain.on('chess2:update:install', () => {
+  // install now and open the new version straight after
+  if (updateState.state === 'ready') autoUpdater.quitAndInstall(true, true);
+});
 
 app.whenReady().then(() => {
   createWindow();
