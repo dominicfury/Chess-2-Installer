@@ -1,9 +1,9 @@
 {
   "name": "chess2-app",
-  "productName": "Chess 2",
+  "productName": "Battle Chess Casino: Rave Edition",
   "version": "0.1.8",
-  "description": "Chess 2",
-  "author": "Chess 2",
+  "description": "Battle Chess Casino: Rave Edition",
+  "author": "Battle Chess Casino",
   "private": true,
   "main": "main.js",
   "scripts": {
@@ -18,8 +18,8 @@
   },
   "build": {
     "appId": "com.chess2.game",
-    "executableName": "Chess 2",
-    "productName": "Chess 2",
+    "executableName": "Battle Chess Casino Rave Edition",
+    "productName": "Battle Chess Casino: Rave Edition",
     "directories": {
       "output": "dist"
     },
@@ -51,9 +51,9 @@
       "runAfterFinish": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Chess 2",
-      "uninstallDisplayName": "Chess 2",
-      "artifactName": "Chess-2-Setup-${version}.${ext}",
+      "shortcutName": "Battle Chess Casino Rave Edition",
+      "uninstallDisplayName": "Battle Chess Casino: Rave Edition",
+      "artifactName": "Battle-Chess-Casino-Setup-${version}.${ext}",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
       "installerHeaderIcon": "build/icon.ico",

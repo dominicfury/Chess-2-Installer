@@ -1,7 +1,7 @@
-// Chess 2 — Copyright (c) 2026 Dominic Chase. All rights reserved.
+// Battle Chess Casino — Copyright (c) 2026 Dominic Chase. All rights reserved.
 // Proprietary; no license granted. This repository is public but is not open source. See LICENSE.
 //
-// Chess 2 desktop shell: one window around the game. Two ways to run:
+// Battle Chess Casino desktop shell: one window around the game. Two ways to run:
 //
 //  - Bundled (a `game/` folder ships beside this file -- the Steam build): the game runs from the
 //    app's own files under app://chess2/, single-player needs no network at all, and only what is
@@ -23,7 +23,9 @@ const path = require('node:path');
 const packaged = app.isPackaged;
 
 // The app's data lives in %APPDATA%\Chess 2, where every version has kept it, whatever the app is
-// called (it was "Chess 2: Brainrot Edition" for a while, a name Windows does not allow as a folder).
+// called: it began as Chess 2, was "Chess 2: Brainrot Edition" for a while, and is now "Battle Chess
+// Casino: Rave Edition" (a name with a colon, which Windows does not allow as a folder). Moving it would
+// lose every player's save, settings and ranked identity.
 // `--data-dir=<path>`: keep this run's save, settings and caches somewhere else (testing, a second profile)
 {
   const arg = process.argv.find((a) => a.startsWith('--data-dir='));
@@ -151,7 +153,7 @@ async function createWindow() {
     fullscreen: displayMode() === 'fullscreen',
     autoHideMenuBar: true,
     backgroundColor: '#202d58',
-    title: 'Chess 2',
+    title: 'Battle Chess Casino: Rave Edition',
     icon: path.join(__dirname, 'build', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

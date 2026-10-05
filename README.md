@@ -1,11 +1,11 @@
-# Chess 2
+# Battle Chess Casino: Rave Edition
 
 Chess, but every capture is a gunfight. Play your hand, keep the beat, hold your ground.
 
 ## Install
 
-Download **Chess 2 Setup** from the [latest release](https://github.com/dominicfury/Chess-2-Installer/releases/latest)
-and run it. The setup wizard lets you pick where to install, then puts Chess 2 on the desktop
+Download **Battle Chess Casino Setup** from the [latest release](https://github.com/dominicfury/Chess-2-Installer/releases/latest)
+and run it. The setup wizard lets you pick where to install, then puts Battle Chess Casino on the desktop
 and in the Start menu and offers to launch it. Windows may show "Windows protected your PC" because the installer is not signed:
 choose **More info → Run anyway**.
 
@@ -26,7 +26,7 @@ icon. The game itself lives on the server and is not in this repository.
 
 ```
 npm install
-npm run dist          →  dist/Chess-2-Setup-<version>.exe
+npm run dist          →  dist/Battle-Chess-Casino-Setup-<version>.exe
 ```
 
 Bump `version` in `package.json` first. Then create a GitHub Release tagged `v<version>` and
@@ -36,7 +36,7 @@ To run the shell against a local server while developing the game: `npm run star
 
 ## License
 
-Chess 2 is copyright © 2026 Dominic Chase. All rights reserved.
+Battle Chess Casino: Rave Edition is copyright © 2026 Dominic Chase. All rights reserved.
 
 This repository is public so that players can download the installer and so installed copies can
 read the current server address. **It is not open source.** You may download and run the official
