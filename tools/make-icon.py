@@ -117,10 +117,10 @@ for y in range(0, 314, 3):
 small = icon.resize((64, 64), Image.NEAREST)
 side.paste(small, ((164 - 64) // 2, 22), small)
 y = 104
-for text, cell, colours in (('BATTLE', 2, TITLE), ('CHESS', 2, TITLE), ('CASINO:', 2, TITLE), ('RAVE', 2, EDITION), ('EDITION', 2, EDITION)):
+for text, cell, colours in (('BATTLE', 2, TITLE), ('CHESS', 2, TITLE), ('CASINO', 2, TITLE), ('RAVE', 2, EDITION), ('EDITION', 2, EDITION)):
     w, h = line_size(text, cell)
     paint_line(side, text, (164 - w) // 2, y, cell, colours)
-    y += h + (8 if text == 'CASINO:' else 2)
+    y += h + (8 if text == 'CASINO' else 2)
 side.convert('RGB').save(os.path.join(OUT, 'installerSidebar.bmp'))
 print('sidebar ok')
 
